@@ -35,6 +35,9 @@ class TestCalculator(TestCase):
             50 * 51
         )
 
+    def test_add_custom_separator(self):
+        self.assertEqual(Calculator.add("//#\n1#2#3"), 6)
+
     def test_add_negative(self):
         self.assertRaises(Exception, Calculator.add, ["-2"])
         self.assertRaises(Exception, Calculator.add, ["1,-2"])
