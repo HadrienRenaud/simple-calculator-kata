@@ -37,6 +37,7 @@ class TestCalculator(TestCase):
 
     def test_add_custom_separator(self):
         self.assertEqual(Calculator.add("//#\n1#2#3"), 6)
+        self.assertEqual(Calculator.add("//##\n1##2##3"), 6)
 
     def test_add_negative(self):
         self.assertRaises(Exception, Calculator.add, ["-2"])
@@ -50,3 +51,7 @@ class TestCalculator(TestCase):
             Calculator.add(",".join(map(str, range(1200)))),
             1000 * 1001 / 2
         )
+
+    def test_add_multiple_custom_separator(self):
+        self.assertEqual(Calculator.add("//[#][%]\n1#2%3"), 6)
+        self.assertEqual(Calculator.add("//[##][%%]\n1##2%%3"), 6)
