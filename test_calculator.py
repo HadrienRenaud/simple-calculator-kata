@@ -39,3 +39,11 @@ class TestCalculator(TestCase):
         self.assertRaises(Exception, Calculator.add, ["-2"])
         self.assertRaises(Exception, Calculator.add, ["1,-2"])
         self.assertRaises(Exception, Calculator.add, ["-\n-1,-2"])
+
+    def test_add_superior_1000(self):
+        self.assertEqual(Calculator.add("2,1001"), 2)
+        self.assertEqual(Calculator.add("2,1000,3"), 1005)
+        self.assertEqual(
+            Calculator.add(",".join(map(str, range(1200)))),
+            1000 * 1001 / 2
+        )

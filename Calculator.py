@@ -15,10 +15,11 @@ class Calculator:
         inputs_float_list = list(map(float, inputs_list))
         if any([i < 0 for i in inputs_float_list]):
             raise Exception("negatives not allowed ")
+        inputs_filtered = list(filter(lambda x: x < 1001, inputs_float_list))
         # print(f"""Call with :
         # \t- delimiters={delimiters}
         # \t- inputs={inputs}
         # \t- inputs_list={inputs_list}
         # \t- inputs_float={inputs_float_list}""")
-        return sum(inputs_float_list)
+        return sum(inputs_filtered)
 
