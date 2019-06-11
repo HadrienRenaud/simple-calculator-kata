@@ -24,3 +24,13 @@ class TestCalculator(TestCase):
             Calculator.add(','.join(map(str, range(-100, 101)))),
             0
         )
+
+    def test_add_lines(self):
+        self.assertEqual(
+            Calculator.add('\n'.join(map(str, range(100)))),
+            100 * 99 / 2
+        )
+        self.assertEqual(
+            Calculator.add('\n'.join(map(str, range(-100, 101)))),
+            0
+        )
