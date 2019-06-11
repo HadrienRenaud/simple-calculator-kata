@@ -13,7 +13,7 @@ class TestCalculator(TestCase):
     def test_add_two(self):
         self.assertEqual(Calculator.add("1,0"), 1)
         self.assertEqual(Calculator.add("1,2"), 3)
-        self.assertEqual(Calculator.add("1,-2"), -1)
+        self.assertEqual(Calculator.add("12,34"), 46)
 
     def test_add_unkwown(self):
         self.assertEqual(
@@ -21,8 +21,8 @@ class TestCalculator(TestCase):
             100 * 99 / 2
         )
         self.assertEqual(
-            Calculator.add(','.join(map(str, range(-100, 101)))),
-            0
+            Calculator.add(','.join(map(str, range(100, 201)))),
+            200 * 201 / 2 - 100 * 99 / 2
         )
 
     def test_add_lines(self):
@@ -31,6 +31,11 @@ class TestCalculator(TestCase):
             100 * 99 / 2
         )
         self.assertEqual(
-            Calculator.add('\n'.join(map(str, range(-100, 101)))),
-            0
+            Calculator.add('\n'.join(map(str, range(0, 101, 2)))),
+            50 * 51
         )
+
+    def test_add_negative(self):
+        self.assertRaises(Exception, Calculator.add, ["-2"])
+        self.assertRaises(Exception, Calculator.add, ["1,-2"])
+        self.assertRaises(Exception, Calculator.add, ["-\n-1,-2"])
