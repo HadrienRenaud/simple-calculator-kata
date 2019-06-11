@@ -15,4 +15,12 @@ class TestCalculator(TestCase):
         self.assertEqual(Calculator.add("1,2"), 3)
         self.assertEqual(Calculator.add("1,-2"), -1)
 
-
+    def test_add_unkwown(self):
+        self.assertEqual(
+            Calculator.add(','.join(map(str, range(100)))),
+            100 * 99 / 2
+        )
+        self.assertEqual(
+            Calculator.add(','.join(map(str, range(-100, 101)))),
+            0
+        )

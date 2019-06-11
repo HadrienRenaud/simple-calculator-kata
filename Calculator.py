@@ -6,7 +6,4 @@ class Calculator:
         if len(inputs) == 0:
             return 0
         inputs_list = inputs.split(',')
-        if len(inputs_list) == 1:
-            return float(inputs_list[0])
-        else:
-            return float(inputs_list[0]) + float(inputs_list[1])
+        return sum(map(float, inputs_list))
