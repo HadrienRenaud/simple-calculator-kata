@@ -18,7 +18,7 @@ class Calculator:
             else:
                 delimiters = re.escape(delimiters)
             inputs = "\n".join(inputs.split('\n')[1:])
-            print("Custom delimiters :", delimiters)
+            # print("Custom delimiters :", delimiters)
         inputs_list = list(re.split(delimiters, inputs))
         inputs_float_list = list(map(float, inputs_list))
         if any([i < 0 for i in inputs_float_list]):
