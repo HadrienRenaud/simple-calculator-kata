@@ -4,6 +4,7 @@ from calculator import Calculator
 
 
 class TestCalculator(TestCase):
+
     def test_add_null(self):
         self.assertEqual(Calculator.add(""), 0)
 
@@ -62,3 +63,84 @@ class TestCalculator(TestCase):
         Calculator.add("1")
         mock_write.assert_called_once()
 
+    @patch('calculator.ILogger.write')
+    def test_add_null_check_log(self, mock_write):
+        Calculator.add("")
+        mock_write.assert_called_once_with(0)
+
+    @patch('calculator.ILogger.write')
+    def test_add_one_check_log(self, mock_write):
+        Calculator.add("1")
+        mock_write.assert_called_once_with(1)
+        mock_write.reset_mock()
+
+        Calculator.add("12.56")
+        mock_write.assert_called_once_with(12.56)
+        mock_write.reset_mock()
+
+    @patch('calculator.ILogger.write')
+    def test_add_two_check_log(self, mock_write):
+        Calculator.add("1,0")
+        mock_write.assert_called_once_with(1)
+        mock_write.reset_mock()
+
+        Calculator.add("1,2")
+        mock_write.assert_called_once_with(3)
+        mock_write.reset_mock()
+
+        Calculator.add("12,34")
+        mock_write.assert_called_once_with(46)
+        mock_write.reset_mock()
+
+    @patch('calculator.ILogger.write')
+    def test_add_unkwown_check_log(self, mock_write):
+        Calculator.add(','.join(map(str, range(100))))
+        mock_write.assert_called_once_with(100 * 99 / 2)
+        mock_write.reset_mock()
+
+        Calculator.add(','.join(map(str, range(100, 201))))
+        mock_write.assert_called_once_with(200 * 201 / 2 - 100 * 99 / 2)
+        mock_write.reset_mock()
+
+    @patch('calculator.ILogger.write')
+    def test_add_lines_check_log(self, mock_write):
+        Calculator.add('\n'.join(map(str, range(100))))
+        mock_write.assert_called_once_with(100 * 99 / 2)
+        mock_write.reset_mock()
+
+        Calculator.add('\n'.join(map(str, range(0, 101, 2))))
+        mock_write.assert_called_once_with(50 * 51)
+        mock_write.reset_mock()
+
+    @patch('calculator.ILogger.write')
+    def test_add_custom_separator_check_log \
+                    (self, mock_write):
+        Calculator.add("//#\n1#2#3")
+        mock_write.assert_called_once_with(6)
+        mock_write.reset_mock()
+
+        Calculator.add("//##\n1##2##3")
+        mock_write.assert_called_once_with(6)
+        mock_write.reset_mock()
+
+    @patch('calculator.ILogger.write')
+    def test_add_superior_1000_check_log(self, mock_write):
+        Calculator.add("2,1001")
+        mock_write.assert_called_once_with(2)
+        mock_write.reset_mock()
+
+        Calculator.add("2,1000,3")
+        mock_write.assert_called_once_with(1005)
+        mock_write.reset_mock()
+
+        Calculator.add(",".join(map(str, range(1200))))
+        mock_write.assert_called_once_with(1000 * 1001 / 2)
+
+    @patch('calculator.ILogger.write')
+    def test_add_multiple_custom_separator_check_log(self, mock_write):
+        Calculator.add("//[#][%]\n1#2%3")
+        mock_write.assert_called_once_with(6)
+        mock_write.reset_mock()
+
+        Calculator.add("//[##][%%]\n1##2%%3")
+        mock_write.assert_called_once_with(6)

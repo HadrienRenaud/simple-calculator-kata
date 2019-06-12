@@ -7,6 +7,7 @@ class Calculator:
     @staticmethod
     def add(inputs: str):
         if len(inputs) == 0:
+            ILogger.write(0)
             return 0
         delimiters = r'[,\n]'
         if re.match(r'^//.+$', inputs.split('\n')[0]):
