@@ -1,5 +1,6 @@
 from unittest import TestCase
-from Calculator import Calculator
+from unittest.mock import patch
+from calculator import Calculator
 
 
 class TestCalculator(TestCase):
@@ -55,3 +56,9 @@ class TestCalculator(TestCase):
     def test_add_multiple_custom_separator(self):
         self.assertEqual(Calculator.add("//[#][%]\n1#2%3"), 6)
         self.assertEqual(Calculator.add("//[##][%%]\n1##2%%3"), 6)
+
+    @patch('calculator.ILogger.write')
+    def test_add_simple_log(self, mock_write):
+        Calculator.add("1")
+        mock_write.assert_called_once()
+
