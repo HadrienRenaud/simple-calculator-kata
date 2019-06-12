@@ -1,4 +1,5 @@
 import re
+from logger import ILogger
 
 
 class Calculator:
@@ -29,5 +30,7 @@ class Calculator:
         # \t- inputs={inputs}
         # \t- inputs_list={inputs_list}
         # \t- inputs_float={inputs_float_list}""")
-        return sum(inputs_filtered)
+        result = sum(inputs_filtered)
+        ILogger.write(result)
+        return result
 
