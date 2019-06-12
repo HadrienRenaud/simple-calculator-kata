@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from calculator import Calculator
 
 
@@ -144,3 +144,20 @@ class TestCalculator(TestCase):
 
         Calculator.add("//[##][%%]\n1##2%%3")
         mock_write.assert_called_once_with(6)
+
+    @patch('calculator.ILogger.write')
+    def test_catching_errors_on_logger(self, mock_write):
+        mock_write.side_effect = Exception("Fake Failed")
+        try:
+            Calculator.add("1")
+        except Exception:
+            self.fail()
+
+    @patch('calculator.ILogger.write')
+    @patch('calculator.IWebserver.notify')
+    def test_catching_errors_on_logger(self, mock_notify, mock_write):
+        mock_write.side_effect = Exception("Fake Failed")
+        try:
+            Calculator.add("1")
+        except: pass
+        mock_notify.assert_called_once()
